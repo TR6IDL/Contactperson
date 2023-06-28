@@ -24,6 +24,8 @@ class FormController extends AbstractController
             $email=$form->get('email')->getData();
             $message=$form->get('message')->getData();
 
+            $entityManager->persist($person);
+            $entityManager->flush();
             if($name=="" || $email=="" || $message==""){
                 return new Response('Hiba! Kérjük töltsd ki az összes mezőt!');
             }
@@ -31,14 +33,10 @@ class FormController extends AbstractController
                 return new Response('Köszönjük szépen a kérdésedet. Válaszunkkal hamarosan keresünk a megadott e-mail címen.');
             }
             
-
-            $entityManager->persist($person);
-            $entityManager->flush();
-            
         }
         return $this->render('form/index.html.twig', [
             'our_form' => $form,
-            
+
         ]);
     }
 }
